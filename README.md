@@ -5,6 +5,7 @@ Carta completa en cuatro idiomas (CA / ES / FR / EN) y dos canales
 (restaurante y delivery), construida a partir de la carta maestra en Excel.
 
 - **Web**: `index.html` (home) y `carta.html` (carta completa)
+- **Publicada en GitHub Pages**: https://legaliza85.github.io/bella-ciao-web/
 - **Diseño**: `untitled.pen` (canvas de pen.dev) — referencia visual
 - **Datos**: `data/carta-maestra-v1.xlsx` → `assets/menu-data.js`
 
