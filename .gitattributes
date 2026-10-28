@@ -1,0 +1,11 @@
+# Normaliza a LF en el repo
+* text=auto eol=lf
+
+# Binarios: sin conversión
+*.pen binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.pdf binary
+*.xlsx binary
