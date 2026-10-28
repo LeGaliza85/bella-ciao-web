@@ -121,3 +121,34 @@ publicar desde otro proveedor.
 - **Vinos**: la maestra no incluye carta de vinos; la sección Bodega es informativa.
 - **Entrecot**: se muestra 8,50 con la nota «precio por 100 g · mínimo 300 g»
   heredada de la carta anterior; confirmar.
+
+---
+
+## Para continuar el proyecto (handoff)
+
+Todo lo necesario está en el repositorio:
+
+| Qué | Dónde | Notas |
+|---|---|---|
+| Web publicada (código) | `index.html`, `carta.html`, `assets/` | Sin build: son ficheros estáticos |
+| Diseño editable | `untitled.pen` | Se abre con **pen.dev** (la app con la que se creó). Incluye las 4 mesas de trabajo: web escritorio, carta escritorio, web móvil y carta móvil |
+| Carta fuente | `data/carta-maestra-v1.xlsx` | Hoja `MAESTRA`; a partir de ella se genera la web |
+| Fotografía | `images/`, `map-warm.png` | Assets servidos por la web |
+| Herramientas | `tools/` | Extracción, verificación y correcciones |
+
+**Abrir el diseño.** `untitled.pen` es el documento original de pen.dev (formato JSON).
+El compañero necesita una cuenta en pen.dev: al abrirlo tendrá las cuatro mesas de
+trabajo y las variables de color (fondo, tinta, rojo, verde, crema, arena).
+
+**Ojo:** la web `index.html` / `carta.html` es una implementación fluida independiente
+del `.pen`. El canvas es la referencia visual; los cambios de diseño se trasladan a
+`assets/site.css` y `assets/app.js`.
+
+**Puesta en marcha**
+
+```bash
+git clone https://github.com/LeGaliza85/bella-ciao-web.git
+cd bella-ciao-web
+python -m http.server 8777      # http://localhost:8777/index.html
+python tools/verify_menu.py     # comprobar que la carta está sincronizada
+```
