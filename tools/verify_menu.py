@@ -1,7 +1,13 @@
 # Compara la carta maestra (xlsx) con lo que publica la web (assets/menu-data.js)
 import openpyxl, json, pathlib, sys
 
-SRC = r"C:/Users/Pablo/Downloads/BELLA CIAO _ CARTA MAESTRA CORPORATIVA _ CAT ES FR EN _ V1.xlsx"
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+from menu_fixes import NAME_FIXES
+
+ROOT = pathlib.Path(__file__).resolve().parent.parent
+SRC = sys.argv[1] if len(sys.argv) > 1 else str(ROOT / 'data' / 'carta-maestra-v1.xlsx')
+if not pathlib.Path(SRC).exists():
+    SRC = r"C:/Users/Pablo/Downloads/BELLA CIAO _ CARTA MAESTRA CORPORATIVA _ CAT ES FR EN _ V1.xlsx"
 raw = pathlib.Path('assets/menu-data.js').read_text(encoding='utf-8')
 key = 'window.BC.data='
 web = json.loads(raw[raw.index(key)+len(key):raw.rindex('}')+1])
@@ -19,8 +25,11 @@ excel = {}
 for r in ws.iter_rows(min_row=2, values_only=True):
     if not r[0]:
         continue
+    name_es = (r[5] or '').strip()
+    if r[0] in NAME_FIXES and 'es' in NAME_FIXES[r[0]]:
+        name_es = NAME_FIXES[r[0]]['es']
     excel[r[0]] = dict(
-        id=r[0], cat=r[2], name_es=(r[5] or '').strip(), name_cat=(r[3] or '').strip(),
+        id=r[0], cat=r[2], name_es=name_es, name_cat=(r[3] or '').strip(),
         price=fmt(r[11]), price_dl=fmt(r[13]),
         rest=is_true(r[14]) and is_true(r[15]), dl=is_true(r[16]) and is_true(r[15]))
 

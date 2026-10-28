@@ -1,25 +1,15 @@
 # Lee la carta maestra (xlsx) y genera assets/menu-data.js con 4 idiomas y 2 canales.
-import openpyxl, json, re, pathlib
+import openpyxl, json, re, pathlib, sys
 
-SRC = r"C:/Users/Pablo/Downloads/BELLA CIAO _ CARTA MAESTRA CORPORATIVA _ CAT ES FR EN _ V1.xlsx"
+ROOT = pathlib.Path(__file__).resolve().parent.parent
+SRC = sys.argv[1] if len(sys.argv) > 1 else str(ROOT / 'data' / 'carta-maestra-v1.xlsx')
+if not pathlib.Path(SRC).exists():
+    SRC = r"C:/Users/Pablo/Downloads/BELLA CIAO _ CARTA MAESTRA CORPORATIVA _ CAT ES FR EN _ V1.xlsx"
 OUT = pathlib.Path('assets/menu-data.js')
 
 
-# Correcciones de nombres: el Excel mezcla idiomas en algunas filas.
-NAME_FIXES = {
-    'BC-032': {'ca': 'MARGHERITA', 'es': 'MARGHERITA', 'fr': 'MARGHERITA', 'en': 'MARGHERITA'},
-    'BC-033': {'ca': 'PROSCIUTTO', 'es': 'PROSCIUTTO', 'fr': 'PROSCIUTTO', 'en': 'PROSCIUTTO'},
-    'BC-022': {'es': 'TAGLIATELLE 4 QUESOS', 'fr': 'TAGLIATELLE AUX 4 FROMAGES', 'en': 'FOUR-CHEESE TAGLIATELLE'},
-    'BC-027': {'es': 'FIOCCHI CON PERA Y RICOTTA', 'fr': 'FIOCCHI POIRE ET RICOTTA', 'en': 'PEAR AND RICOTTA FIOCCHI'},
-    'BC-072': {'es': 'AGUA S. PELLEGRINO', 'fr': 'EAU S. PELLEGRINO', 'en': 'S. PELLEGRINO WATER'},
-    'BC-071': {'es': 'VICHY CATALÁN'},
-    'BC-011': {'ca': 'FORMATGE DE CABRA'},
-    'BC-004': {'ca': "MANDONGUILLES D'ALBERGÍNIA"},
-    'BC-SUP-004': {'ca': 'XAMPINYONS'},
-    'BC-090': {'ca': 'GERRA'},
-    'BC-074': {'fr': 'MARTINI / VERMOUTH', 'en': 'MARTINI / VERMOUTH'},
-    'BC-082': {'fr': 'CUBA LIBRE', 'en': 'CUBA LIBRE'},
-}
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+from menu_fixes import NAME_FIXES
 
 wb = openpyxl.load_workbook(SRC, data_only=True)
 ws = wb['MAESTRA']
